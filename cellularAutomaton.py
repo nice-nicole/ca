@@ -1,14 +1,7 @@
 
-class CA1D(object):
+class CellularAutomaton(object):
 
     def __init__(self, cell_count, init_pattern, rule, iterations, on_change):
-
-        """
-        Creates attributes with values from arguments or defaults.
-        Set initial state of cells from init_pattern
-        and then calls the on_change function to let whatever UI
-        has been plugged in to update the output.
-        """
 
         self.cell_count = cell_count
         self.init_pattern = init_pattern
@@ -20,7 +13,6 @@ class CA1D(object):
         self.__next_state = []
         self.rule_binary = format(self.rule, '08b')
 
-        # set cells from init pattern
         for c in self.init_pattern:
 
             if c == "0":
@@ -29,16 +21,10 @@ class CA1D(object):
                 self.cells.append("1")
 
             self.__next_state.append("0")
-
-        # call on_change to let UI know CA has been created
         self.on_change(self)
 
     def start(self):
 
-        """
-        Loop for specified number of iterations,
-        calculating next state and updating UI
-        """
 
         neighbourhood = ""
 
@@ -50,27 +36,24 @@ class CA1D(object):
 
             self.on_change(self)
 
+# calculating next state
     def __calculate_next_state(self):
 
-        """
-        For each cell, calculate that cells next state depending on the current rule.
-        Then copy the next state to the current state
-        """
-
+#0 is the first index
+#self.cell_count -1 is the last index
         for c in range(0, self.cell_count - 1):
 
             if c == 0:
-                # roll beginning round to end
                 prev_index = self.cell_count - 1
             else:
                 prev_index = c - 1
 
             if c == (self.cell_count - 1):
-                # roll end round to beginning
                 next_index = 0
             else:
                 next_index = c + 1
 
+# setting neighbourhood according to the rule stated by the user
             neighbourhood = self.cells[prev_index] + self.cells[c] + self.cells[next_index]
 
             if neighbourhood == "111":
