@@ -8,7 +8,7 @@ def main():
 
     ca = cellularAutomaton.CellularAutomaton(cell_count = 41,
                    init_pattern = "10100000000000000000100000000000000000011",
-                   rule = 30,
+                   rule = 129,
                    iterations = 30,
                    on_change = cs.print_ca)
 
